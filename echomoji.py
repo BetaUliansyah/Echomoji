@@ -20,6 +20,7 @@ from telegram import Emoji
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import configparser
+import unicodedata
 
 from future.utils import bytes_to_native_str as n
 
@@ -57,6 +58,45 @@ class EmojiKoe(object):
     LETTER_Y = n(b'\xF0\x9F\x87\xBE')
     LETTER_Z = n(b'\xF0\x9F\x87\xBF')
 
+chars = {
+    '1':Emoji.DIGIT_ONE_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '2':Emoji.DIGIT_TWO_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '3':Emoji.DIGIT_THREE_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '4':Emoji.DIGIT_FOUR_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '5':Emoji.DIGIT_FIVE_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '6':Emoji.DIGIT_SIX_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '7':Emoji.DIGIT_SEVEN_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '8':Emoji.DIGIT_EIGHT_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '9':Emoji.DIGIT_NINE_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    '0':Emoji.DIGIT_ZERO_PLUS_COMBINING_ENCLOSING_KEYCAP,
+    'a':EmojiKoe.LETTER_A+" ",
+    'b':EmojiKoe.LETTER_B+" ",
+    'c':EmojiKoe.LETTER_C+" ",
+    'd':EmojiKoe.LETTER_D+" ",
+    'e':EmojiKoe.LETTER_E+" ",
+    'f':EmojiKoe.LETTER_F+" ",
+    'g':EmojiKoe.LETTER_G+" ",
+    'h':EmojiKoe.LETTER_H+" ",
+    'i':EmojiKoe.LETTER_I+" ",
+    'j':EmojiKoe.LETTER_J+" ",
+    'k':EmojiKoe.LETTER_K+" ",
+    'l':EmojiKoe.LETTER_L+" ",
+    'm':EmojiKoe.LETTER_M+" ",
+    'n':EmojiKoe.LETTER_N+" ",
+    'o':EmojiKoe.LETTER_O+" ",
+    'p':EmojiKoe.LETTER_P+" ",
+    'q':EmojiKoe.LETTER_Q+" ",
+    'r':EmojiKoe.LETTER_R+" ",
+    's':EmojiKoe.LETTER_S+" ",
+    't':EmojiKoe.LETTER_T+" ",
+    'u':EmojiKoe.LETTER_U+" ",
+    'v':EmojiKoe.LETTER_V+" ",
+    'w':EmojiKoe.LETTER_W+" ",
+    'x':EmojiKoe.LETTER_X+" ",
+    'y':EmojiKoe.LETTER_Y+" ",
+    'z':EmojiKoe.LETTER_Z+" "
+}
+
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
@@ -78,107 +118,12 @@ def error(bot, update, error):
 def convert_to_emoji(number):
     y = str(number)
     result = []
-    for i in xrange(0, len(y)):
-        x = y[i]
-        if x == "1":
-            result.append(Emoji.DIGIT_ONE_PLUS_COMBINING_ENCLOSING_KEYCAP) #1\u20e3
-        elif x == "2":
-            result.append(Emoji.DIGIT_TWO_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "3":
-            result.append(Emoji.DIGIT_THREE_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "4":
-            result.append(Emoji.DIGIT_FOUR_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "5":
-            result.append(Emoji.DIGIT_FIVE_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "6":
-            result.append(Emoji.DIGIT_SIX_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "7":
-            result.append(Emoji.DIGIT_SEVEN_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "8":
-            result.append(Emoji.DIGIT_EIGHT_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "9":
-            result.append(Emoji.DIGIT_NINE_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "0":
-            result.append(Emoji.DIGIT_ZERO_PLUS_COMBINING_ENCLOSING_KEYCAP)
-        elif x == "a" or x == "A":
-            result.append(EmojiKoe.LETTER_A)
-            result.append(" ")
-        elif x == "b" or x == "B":
-            result.append(EmojiKoe.LETTER_B)
-            result.append(" ")
-        elif x == "c" or x == "C":
-            result.append(EmojiKoe.LETTER_C)
-            result.append(" ")
-        elif x == "d" or x == "D":
-            result.append(EmojiKoe.LETTER_D)
-            result.append(" ")
-        elif x == "e" or x == "E":
-            result.append(EmojiKoe.LETTER_E)
-            result.append(" ")
-        elif x == "f" or x == "F":
-            result.append(EmojiKoe.LETTER_F)
-            result.append(" ")
-        elif x == "g" or x == "G":
-            result.append(EmojiKoe.LETTER_G)
-            result.append(" ")
-        elif x == "h" or x == "H":
-            result.append(EmojiKoe.LETTER_H)
-            result.append(" ")
-        elif x == "i" or x == "I":
-            result.append(EmojiKoe.LETTER_I)
-            result.append(" ")
-        elif x == "j" or x == "J":
-            result.append(EmojiKoe.LETTER_J)
-            result.append(" ")
-        elif x == "k" or x == "K":
-            result.append(EmojiKoe.LETTER_K)
-            result.append(" ")
-        elif x == "l" or x == "L":
-            result.append(EmojiKoe.LETTER_L)
-            result.append(" ")
-        elif x == "m" or x == "M":
-            result.append(EmojiKoe.LETTER_M)
-            result.append(" ")
-        elif x == "n" or x == "N":
-            result.append(EmojiKoe.LETTER_N)
-            result.append(" ")
-        elif x == "o" or x == "O":
-            result.append(EmojiKoe.LETTER_O)
-            result.append(" ")
-        elif x == "p" or x == "P":
-            result.append(EmojiKoe.LETTER_P)
-            result.append(" ")
-        elif x == "q" or x == "Q":
-            result.append(EmojiKoe.LETTER_Q)
-            result.append(" ")
-        elif x == "r" or x == "R":
-            result.append(EmojiKoe.LETTER_R)
-            result.append(" ")
-        elif x == "s" or x == "S":
-            result.append(EmojiKoe.LETTER_S)
-            result.append(" ")
-        elif x == "t" or x == "T":
-            result.append(EmojiKoe.LETTER_T)
-            result.append(" ")
-        elif x == "u" or x == "U":
-            result.append(EmojiKoe.LETTER_U)
-            result.append(" ")
-        elif x == "v" or x == "V":
-            result.append(EmojiKoe.LETTER_V)
-            result.append(" ")
-        elif x == "w" or x == "W":
-            result.append(EmojiKoe.LETTER_W)
-            result.append(" ")
-        elif x == "x" or x == "X":
-            result.append(EmojiKoe.LETTER_X)
-            result.append(" ")
-        elif x == "y" or x == "Y":
-            result.append(EmojiKoe.LETTER_Y)
-            result.append(" ")
-        elif x == "z" or x == "Z":
-            result.append(EmojiKoe.LETTER_Z)
-            result.append(" ")
-        else:
+    for i in range(0, len(y)):
+        x = unicodedata.normalize('NFD', y[i])[0].lower()
+        print(x)
+        try:
+            result.append(chars[x])
+        except:
             result.append(x)
     return ''.join(result)
 
@@ -187,7 +132,6 @@ def convert_to_emoji(number):
 def main():
     # Create the EventHandler and pass it your bot's token.
     mytoken = open('echomoji.token', 'r').read().strip()
-    print mytoken
     updater = Updater(mytoken)
 
     # Get the dispatcher to register handlers
@@ -214,3 +158,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
